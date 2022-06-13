@@ -37,6 +37,36 @@
             Departments
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/academic_calendars">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            Academic Calendars
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/semesters">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            Semesters
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/subjects">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            Subjects
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/buildings">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            Buildings
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/rooms">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            Rooms
+          </a>
+        </li>
       </ul>
 
       {{-- <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
