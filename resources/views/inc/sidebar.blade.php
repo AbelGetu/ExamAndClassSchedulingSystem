@@ -67,6 +67,24 @@
             Rooms
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/class_years">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            Class Years
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/periods">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            Periods
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/student_classes">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            Classes
+          </a>
+        </li>
       </ul>
 
       {{-- <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
