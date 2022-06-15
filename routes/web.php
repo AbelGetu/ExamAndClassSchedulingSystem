@@ -16,7 +16,10 @@ use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\DepartmentHeadController;
+use App\Http\Controllers\ExamAllocationController;
+use App\Http\Controllers\ClassAllocationController;
 use App\Http\Controllers\AcademicCalendarController;
+use App\Http\Controllers\TeacherAllocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +56,6 @@ Route::resource('teachers', TeacherController::class);
 Route::resource('student_classes', StudentClassController::class);
 Route::resource('periods', PeriodController::class);
 Route::resource('class_years', ClassYearController::class);
+Route::resource('class_allocations', ClassAllocationController::class);
+Route::resource('teacher_allocations', TeacherAllocationController::class);
+Route::resource('exam_allocations', ExamAllocationController::class);
