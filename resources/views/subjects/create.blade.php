@@ -14,6 +14,14 @@
                         <label for="name">Name</label>
                         <input type="text" class="form-control" placeholder="Name" name="name" required>
                     </div>
+                    <div class="form-group mb-3">
+                        <label for="code">Course Code</label>
+                        <input type="text" class="form-control" placeholder="Course Code" name="code" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="credit_hour">Credit Hour</label>
+                        <input type="text" class="form-control" placeholder="Credit Hour" name="credit_hour" required>
+                    </div>
     
                     <div class="form-group mb-3 d-flex justify-content-end">
                         @csrf

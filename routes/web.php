@@ -6,6 +6,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\CollegeController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\ExamAllocationController;
 use App\Http\Controllers\ClassAllocationController;
 use App\Http\Controllers\AcademicCalendarController;
 use App\Http\Controllers\TeacherAllocationController;
+use App\Http\Controllers\ClassSectionAllocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,11 +53,15 @@ Route::resource('buildings', BuildingController::class);
 Route::resource('rooms', RoomController::class);
 Route::resource('subjects', SubjectController::class);
 Route::resource('semesters', SemesterController::class);
-Route::resource('students', StudentController::class);
-Route::resource('teachers', TeacherController::class);
+// Route::resource('students', StudentController::class);
+// Route::resource('teachers', TeacherController::class);
 Route::resource('student_classes', StudentClassController::class);
 Route::resource('periods', PeriodController::class);
 Route::resource('class_years', ClassYearController::class);
-Route::resource('class_allocations', ClassAllocationController::class);
-Route::resource('teacher_allocations', TeacherAllocationController::class);
+// Route::resource('class_allocations', ClassAllocationController::class);
+// Route::resource('teacher_allocations', TeacherAllocationController::class);
+// Route::resource('exam_allocations', ExamAllocationController::class);
+Route::resource('sections', SectionController::class);
+Route::resource('class_section_allocations', ClassSectionAllocationController::class);
 Route::resource('exam_allocations', ExamAllocationController::class);
+Route::resource('teacher_allocations', TeacherAllocationController::class);

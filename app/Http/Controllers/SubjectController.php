@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 class SubjectController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -43,6 +53,8 @@ class SubjectController extends Controller
 
         $subject = new Subject;
         $subject->name = $request->name;
+        $subject->code = $request->code;
+        $subject->credit_hour = $request->credit_hour;
         $subject->save();
 
         return redirect()->route('subjects.index')->with('success', 'Subject created successfully');
@@ -87,6 +99,8 @@ class SubjectController extends Controller
 
         $subject = Subject::find($id);
         $subject->name = $request->name;
+        $subject->code = $request->code;
+        $subject->credit_hour = $request->credit_hour;
         $subject->save();
 
         return redirect()->route('subjects.index')->with('success', 'Subject updated successfully');

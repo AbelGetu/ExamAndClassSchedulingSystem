@@ -12,6 +12,16 @@ use App\Models\AcademicCalendar;
 class StudentClassController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -55,17 +65,17 @@ class StudentClassController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'class_year_id' => 'required|integer|exists:class_years,id',
-            'academic_calendar_id' => 'required|integer|exists:academic_calendars,id',
-            'semester_id' => 'required|integer|exists:semesters,id',
-            'department_id' => 'required|integer|exists:departments,id',
+            'class_year' => 'required|integer|exists:class_years,id',
+            'academic_calendar' => 'required|integer|exists:academic_calendars,id',
+            'semester' => 'required|integer|exists:semesters,id',
+            'department' => 'required|integer|exists:departments,id',
         ]);
 
         $student_class = new StudentClass;
-        $student_class->class_year_id = $request->class_year_id;
-        $student_class->academic_calendar_id = $request->academic_calendar_id;
-        $student_class->semester_id = $request->semester_id;
-        $student_class->department_id = $request->department_id;
+        $student_class->class_year_id = $request->class_year;
+        $student_class->academic_calendar_id = $request->academic_calendar;
+        $student_class->semester_id = $request->semester;
+        $student_class->department_id = $request->department;
         $student_class->save();
 
         return redirect()->route('student_classes.index')->with('success', 'Student Class created successfully.');
@@ -116,17 +126,17 @@ class StudentClassController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'class_year_id' => 'required|integer|exists:class_years,id',
-            'academic_calendar_id' => 'required|integer|exists:academic_calendars,id',
-            'semester_id' => 'required|integer|exists:semesters,id',
-            'department_id' => 'required|integer|exists:departments,id',
+            'class_year' => 'required|integer|exists:class_years,id',
+            'academic_calendar' => 'required|integer|exists:academic_calendars,id',
+            'semester' => 'required|integer|exists:semesters,id',
+            'department' => 'required|integer|exists:departments,id'
         ]);
 
         $student_class = StudentClass::findOrFail($id);
-        $student_class->class_year_id = $request->class_year_id;
-        $student_class->academic_calendar_id = $request->academic_calendar_id;
-        $student_class->semester_id = $request->semester_id;
-        $student_class->department_id = $request->department_id;
+        $student_class->class_year_id = $request->class_year;
+        $student_class->academic_calendar_id = $request->academic_calendar;
+        $student_class->semester_id = $request->semester;
+        $student_class->department_id = $request->department;
         $student_class->save();
 
         return redirect()->route('student_classes.index')->with('success', 'Student Class updated successfully.');

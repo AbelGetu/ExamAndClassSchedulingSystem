@@ -8,6 +8,16 @@ use App\Models\AcademicCalendar;
 class AcademicCalendarController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -45,6 +55,8 @@ class AcademicCalendarController extends Controller
 
         $academic_calendar = new AcademicCalendar;
         $academic_calendar->name = $request->name;
+        $academic_calendar->start_date = $request->start_date;
+        $academic_calendar->end_date = $request->end_date;
         $academic_calendar->save();
 
         return redirect()->route('academic_calendars.index')->with('success', 'Academic Calendar created successfully');

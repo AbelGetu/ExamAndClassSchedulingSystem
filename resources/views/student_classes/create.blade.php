@@ -12,7 +12,7 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="class_year">Select class year</label>
-                        <select name=" " class="form-control" required>
+                        <select name="class_year" class="form-control" required>
                             <option value="">-- Select class year ---</option>
                             @foreach ($class_years as $class_year)
                                 <option value="{{ $class_year->id }}">{{ $class_year->name }}</option>

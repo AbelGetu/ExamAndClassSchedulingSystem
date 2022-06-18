@@ -6,9 +6,20 @@ use App\Models\Subject;
 use App\Models\StudentClass;
 use Illuminate\Http\Request;
 use App\Models\ExamAllocation;
+use App\Models\ClassSectionAllocation;
 
 class ExamAllocationController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +27,8 @@ class ExamAllocationController extends Controller
      */
     public function index()
     {
-        $exam_allocations = ExamAllocation::orderBy('created_at')->with([
-            'student_class.academic_calendar', 'student_class.semester', 'student_class.class_year', 'subject'
+        $exam_allocations = ExamAllocation::orderBy('created_at', 'desc')->with([
+            'subject', 'class_section_allocation.student_class'
         ])->get();
 
         return view('exam_allocations.index')->with('exam_allocations', $exam_allocations);
@@ -30,14 +41,14 @@ class ExamAllocationController extends Controller
      */
     public function create()
     {
-        $student_classes = StudentClass::orderBy('created_at')->with([
-            'class_year', 'semester', 'academic_calendar', 'department'
+        $subjects = Subject::orderBy('name')->get();
+        $class_section_allocations = ClassSectionAllocation::orderBy('created_at', 'desc')->with([
+            'student_class', 'section'
         ])->get();
-        $subjects = Subject::orderBy('created_at')->get();
 
         return view('exam_allocations.create')->with([
-            'student_classes' => $student_classes,
-            'subjects' => $subjects
+            'subjects' => $subjects,
+            'class_section_allocations' => $class_section_allocations
         ]);
     }
 
@@ -49,15 +60,25 @@ class ExamAllocationController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'student_class' => 'required',
+        $request->validate([
             'subject' => 'required',
+            'class' => 'required',
             'weight' => 'required'
         ]);
 
+        // check if class section exists
+        $old_section_class_allocation = ExamAllocation::where([
+            'subject_id' => $request->subject,
+            'class_section_allocation_id' => $request->class,
+        ])->first();
+
+        if ($old_section_class_allocation) {
+            return redirect()->back()->with('error', 'Exam allocation already exists');
+        }
+
         $exam_allocation = new ExamAllocation;
-        $exam_allocation->student_class_id = $request->student_class;
         $exam_allocation->subject_id = $request->subject;
+        $exam_allocation->class_section_allocation_id = $request->class;
         $exam_allocation->weight = $request->weight;
         $exam_allocation->save();
 
@@ -106,7 +127,7 @@ class ExamAllocationController extends Controller
      */
     public function destroy($id)
     {
-        $exam_allocation = ExamAllocation::findOrFail($id);
+        $exam_allocation = ExamAllocation::find($id);
         $exam_allocation->delete();
 
         return redirect()->route('exam_allocations.index')->with('success', 'Exam allocation deleted successfully');

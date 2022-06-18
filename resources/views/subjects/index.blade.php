@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="d-flex justify-content-between mb-3">
-        <h4>Subjects</h4>
+        <h4>Courses</h4>
 
         <a href="{{ route('subjects.create') }}" class="btn btn-primary">+ Add New</a>
     </div>
@@ -14,6 +14,8 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
+            <th scope="col">Code</th>
+            <th scope="col">Credit Hour</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -22,6 +24,8 @@
             <tr>
                 <th scope="row">{{ $key + 1 }}</th>
                 <td>{{ $subject->name }}</td>
+                <td>{{ $subject->code }}</td>
+                <td>{{ $subject->credit_hour }}</td>
                 <td class="d-flex gap-2">
                     <a href="{{ route('subjects.edit', $subject->id) }}" class="btn btn-warning btn-sm">Edit</a>
                     <form action="{{ route('subjects.destroy', $subject->id) }}" method="POST">

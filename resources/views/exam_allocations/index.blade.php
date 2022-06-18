@@ -12,11 +12,13 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Subject</th>
+            <th scope="col">Department</th>
+            <th scope="col">Course</th>
             <th scope="col">Weight</th>
+            <th scope="col">Section</th>
+            <th scope="col">Year</th>
             <th scope="col">Academic Calendar</th>
             <th scope="col">Semester</th>
-            <th scope="col">Department</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -24,12 +26,14 @@
             @foreach ($exam_allocations as $key => $exam_allocation)
             <tr>
                 <th scope="row">{{ $key + 1 }}</th>
+                <td>{{ $exam_allocation->class_section_allocation->student_class->department->name }}</td>
                 <td>{{ $exam_allocation->subject->name }}</td>
                 <td>{{ $exam_allocation->weight }}</td>
-                <td>{{ $exam_allocation->student_class->academic_calendar->name }}</td>
-                <td>{{ $exam_allocation->student_class->semester->name }}</td>
-                <td>{{ $exam_allocation->student_class->department->name }}</td>
-                <td class="d-flex gap-2">   
+                <td>{{ $exam_allocation->class_section_allocation->section->name }}</td>
+                <td>{{ $exam_allocation->class_section_allocation->student_class->class_year->name }}</td>
+                <td>{{ $exam_allocation->class_section_allocation->student_class->academic_calendar->name }}</td>
+                <td>{{ $exam_allocation->class_section_allocation->student_class->semester->name }}</td>
+                <td class="d-flex gap-2">            
                     <form action="{{ route('exam_allocations.destroy', $exam_allocation->id) }}" method="POST">
                         @csrf
                         @method('DELETE')

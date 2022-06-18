@@ -10,6 +10,16 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -47,6 +57,10 @@ class UserController extends Controller
             'password' => 'required|string|min:6',
             'role' => 'required|string|max:255'
         ]);
+
+        if(is_numeric($request->name[0])) {
+            return redirect()->route('users.create')->with('error', 'Name cannot start with a number');
+        }
 
         $user = new User;
         $user->name = $request->input('name');
@@ -126,6 +140,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+        if($user->user_role) {
+            $user->user_role->delete();
+        }
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'User deleted successfully');

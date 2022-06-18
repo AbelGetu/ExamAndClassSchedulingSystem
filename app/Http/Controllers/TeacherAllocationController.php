@@ -2,13 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Models\Subject;
-use App\Models\StudentClass;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use App\Models\TeacherAllocation;
+use App\Models\ClassSectionAllocation;
 
 class TeacherAllocationController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +30,10 @@ class TeacherAllocationController extends Controller
     public function index()
     {
         $teacher_allocations = TeacherAllocation::orderBy('created_at', 'desc')->with([
-            'student_class.academic_calendar', 'student_class.semester', 'student_class.class_year', 'subject'
-        ]);
+            'user', 'subject', 'class_section_allocation'
+        ])->get();
+
+        return view('teacher_allocations.index')->with('teacher_allocations', $teacher_allocations);
     }
 
     /**
@@ -28,22 +43,22 @@ class TeacherAllocationController extends Controller
      */
     public function create()
     {
-        $student_classes = StudentClass::orderBy('created_at')->with([
-            'class_year', 'semester', 'academic_calendar', 'department'
+        $subjects = Subject::orderBy('name')->get();
+        $class_section_allocations = ClassSectionAllocation::orderBy('created_at', 'desc')->with([
+            'student_class', 'section'
         ])->get();
-        $subjects = Subject::orderBy('created_at')->get();
-        
-        $teachers = [];
-        $teacher_role = Role::where('name', 'teacher')->first();
-        if($teacher_role) {
-            $teacher_role_user_ids = UserRole::where('role_id', $teacher_role->id)->pluck('user_id');
 
-            $teachers = User::whereIn('id', $teacher_role_user_ids)->get();
+        $teachers = [];
+        $teacherRole = Role::where('name', 'teacher')->first();
+        if($teacherRole) {
+            $teacherIds = UserRole::where('role_id', $teacherRole->id)->pluck('user_id');
+
+            $teachers = User::whereIn('id', $teacherIds)->orderBy('name')->get();
         }
 
         return view('teacher_allocations.create')->with([
-            'student_classes' => $student_classes,
             'subjects' => $subjects,
+            'class_section_allocations' => $class_section_allocations,
             'teachers' => $teachers
         ]);
     }
@@ -56,19 +71,31 @@ class TeacherAllocationController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'student_class' => 'required',
+        $request->validate([
             'subject' => 'required',
-            'periods_per_week' => 'required',
-            'teacher' => 'required'
+            'class' => 'required',
+            'user' => 'required',
+            'periods_per_week' => 'required'
         ]);
 
+        // check if class section exists
+        $old_section_class_allocation = TeacherAllocation::where([
+            'subject_id' => $request->subject,
+            'class_section_allocation_id' => $request->class
+        ])->first();
+
+        if ($old_section_class_allocation) {
+            return redirect()->back()->with('error', 'Teacher already allocated for this class section');
+        }
+
         $teacher_allocation = new TeacherAllocation;
-        $teacher_allocation->user_id = $request->teacher;
-        $teacher_allocation->student_class_id = $request->student_class;
         $teacher_allocation->subject_id = $request->subject;
-        $teacher_allocation->periods_per_week = $request->periods_per_week;
+        $teacher_allocation->class_section_allocation_id = $request->class;
+        $teacher_allocation->user_id = $request->user;
+        $teacher_allocation->period_per_week = $request->periods_per_week;
         $teacher_allocation->save();
+
+        return redirect()->route('teacher_allocations.index')->with('success', 'Teacher allocated successfully');
     }
 
     /**
