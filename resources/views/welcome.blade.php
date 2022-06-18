@@ -102,7 +102,8 @@
               <a class="nav-link pl-3 me-3" href="#docs">Docs </a>
             </li>
           </ul>
-          <button class="btn btn-primary">Login</button>
+          <a href="/login" class="btn btn-primary">Login</a>
+          <a href="/register" class="btn btn-primary">Register</a>
         </div>
       </div>
     </nav>
