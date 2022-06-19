@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DayController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
@@ -14,12 +15,14 @@ use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\ClassYearController;
 use App\Http\Controllers\InstituteController;
+use App\Http\Controllers\TimetableController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\DepartmentHeadController;
 use App\Http\Controllers\ExamAllocationController;
 use App\Http\Controllers\ClassAllocationController;
 use App\Http\Controllers\AcademicCalendarController;
+use App\Http\Controllers\SectionAllocationController;
 use App\Http\Controllers\TeacherAllocationController;
 use App\Http\Controllers\ClassSectionAllocationController;
 
@@ -63,5 +66,8 @@ Route::resource('class_years', ClassYearController::class);
 // Route::resource('exam_allocations', ExamAllocationController::class);
 Route::resource('sections', SectionController::class);
 Route::resource('class_section_allocations', ClassSectionAllocationController::class);
+Route::resource('section_allocations', SectionAllocationController::class);
 Route::resource('exam_allocations', ExamAllocationController::class);
 Route::resource('teacher_allocations', TeacherAllocationController::class);
+Route::resource('days', DayController::class);
+Route::resource('timetables', TimetableController::class);

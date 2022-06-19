@@ -28,4 +28,14 @@ class ClassSectionAllocation extends Model
     {
         return $this->belongsTo(StudentClass::class, 'student_class_id');
     }
+
+    /**
+     * Get the section_allocation associated with the ClassSectionAllocation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function section_allocation()
+    {
+        return $this->hasOne(SectionAllocation::class, 'class_section_allocation_id');
+    }
 }

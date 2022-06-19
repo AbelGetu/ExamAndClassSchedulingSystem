@@ -78,8 +78,10 @@
             <a class="collapse-item" href="{{ route('class_years.index') }}">Class Years</a>
             <a class="collapse-item" href="{{ route('colleges.index') }}">Colleges</a>
             <a class="collapse-item" href="{{ route('subjects.index') }}">Courses</a>
+            <a class="collapse-item" href="{{ route('days.index') }}">Days</a>
             <a class="collapse-item" href="{{ route('departments.index') }}">Department</a>
-            <a class="collapse-item" href="{{ route('department_heads.index') }}">Department Heads</a>
+            {{-- <a class="collapse-item" href="{{ route('department_heads.index') }}">Department Heads</a> --}}
+            <a class="collapse-item" href="{{ route('section_allocations.index') }}">Section Allocations</a>
             <a class="collapse-item" href="{{ route('sections.index') }}">Sections</a>
             <a class="collapse-item" href="{{ route('semesters.index') }}">Semesters</a>
             <a class="collapse-item" href="{{ route('periods.index') }}">Periods</a>
@@ -109,17 +111,17 @@
 
   <!-- Nav Item - Charts -->
   <li class="nav-item">
-      <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
+      <a class="nav-link" href="{{ route('timetables.index') }}">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Timetables</span></a>
   </li>
 
   <!-- Nav Item - Tables -->
-  <li class="nav-item">
+  {{-- <li class="nav-item">
       <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-table"></i>
+        <i class="fas fa-fw fa-chart-area"></i>
           <span>Tables</span></a>
-  </li>
+  </li> --}}
 
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">

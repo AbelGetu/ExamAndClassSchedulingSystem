@@ -2,22 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Room;
-use App\Models\Building;
+use App\Models\Day;
 use Illuminate\Http\Request;
 
-class RoomController extends Controller
+class DayController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -25,9 +14,9 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::orderBy('name')->with('building')->get();
+        $days = Day::orderBy('order', 'asc')->get();
 
-        return view('rooms.index')->with('rooms', $rooms);
+        return view('days.index')->with('days', $days);
     }
 
     /**
@@ -37,9 +26,7 @@ class RoomController extends Controller
      */
     public function create()
     {
-        $buildings = Building::orderBy('name')->get();
-
-        return view('rooms.create')->with('buildings', $buildings);
+        return view('days.create');
     }
 
     /**
@@ -51,16 +38,16 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'string|required',
-            'building' => 'integer|required'
+            'name' => 'required',
+            'order' => 'required'
         ]);
 
-        $room = new Room;
-        $room->name = $request->name;
-        $room->building_id = $request->building;
-        $room->save();
+        $day = new Day;
+        $day->name = $request->name;
+        $day->order = $request->order;
+        $day->save();
 
-        return redirect()->route('rooms.index')->with('success', 'Room created successfully');
+        return redirect('days')->with('success', 'Day created successfully');
     }
 
     /**
@@ -82,10 +69,9 @@ class RoomController extends Controller
      */
     public function edit($id)
     {
-        $buildings = Building::orderBy('name')->get();
-        $room = Room::find($id);
+        $day = Day::find($id);
 
-        return view('rooms.edit')->with(['room' => $room, 'buildings' => $buildings]);
+        return view('days.edit')->with('day', $day);
     }
 
     /**
@@ -98,16 +84,16 @@ class RoomController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'string|required',
-            'building_id' => 'integer|required'
+            'name' => 'required',
+            'order' => 'required'
         ]);
 
-        $room = Room::find($id);
-        $room->name = $request->name;
-        $room->building_id = $request->building_id;
-        $room->save();
+        $day = Day::find($id);
+        $day->name = $request->name;
+        $day->order = $request->order;
+        $day->save();
 
-        return redirect()->route('rooms.index')->with('success', 'Room updated successfully');
+        return redirect('days')->with('success', 'Day updated successfully');
     }
 
     /**
@@ -118,9 +104,9 @@ class RoomController extends Controller
      */
     public function destroy($id)
     {
-        $room = Room::find($id);
-        $room->delete();
+        $day = Day::find($id);
+        $day->delete();
 
-        return redirect()->route('rooms.index')->with('success', 'Room deleted successfully');
+        return redirect('days')->with('success', 'Day deleted successfully');
     }
 }
