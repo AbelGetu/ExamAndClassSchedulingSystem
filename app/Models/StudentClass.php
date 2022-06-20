@@ -48,4 +48,14 @@ class StudentClass extends Model
     {
         return $this->belongsTo(Department::class, 'department_id');
     }
+
+    /**
+     * Get all of the class_section_allocation for the StudentClass
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function class_section_allocations()
+    {
+        return $this->hasMany(ClassSectionAllocation::class, 'student_class_id');
+    }
 }

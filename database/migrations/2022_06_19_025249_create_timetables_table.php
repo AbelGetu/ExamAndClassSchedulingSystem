@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('day_id')->constrained('days');
             $table->foreignId('period_id')->constrained('periods');
             $table->foreignId('room_id')->constrained('rooms');
+            $table->foreignId('subject_id')->constrained('subjects');
             $table->integer('day_order');
             $table->integer('period_order');
             $table->timestamps();

@@ -38,4 +38,14 @@ class TeacherAllocation extends Model
    {
        return $this->belongsTo(User::class, 'user_id');
    }
+
+   /**
+    * Get all of the timetables for the TeacherAllocation
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+   public function timetables()
+   {
+       return $this->hasMany(Timetable::class, 'teacher_allocation_id');
+   }
 }

@@ -18,4 +18,34 @@ class Timetable extends Model
     {
         return $this->belongsTo(TeacherAllocation::class, 'teacher_allocation_id');
     }
+
+    /**
+     * Get the subject that owns the Timetable
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+    /**
+     * Get the day that owns the Timetable
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function day()
+    {
+        return $this->belongsTo(Day::class, 'day_id');
+    }
+
+    /**
+     * Get the period that owns the Timetable
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function period()
+    {
+        return $this->belongsTo(Period::class, 'period_id');
+    }
 }

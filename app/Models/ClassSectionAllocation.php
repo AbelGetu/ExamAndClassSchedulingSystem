@@ -38,4 +38,14 @@ class ClassSectionAllocation extends Model
     {
         return $this->hasOne(SectionAllocation::class, 'class_section_allocation_id');
     }
+
+    /**
+     * Get all of the teacher_allocations for the ClassSectionAllocation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function teacher_allocations()
+    {
+        return $this->hasMany(TeacherAllocation::class, 'class_section_allocation_id');
+    }
 }

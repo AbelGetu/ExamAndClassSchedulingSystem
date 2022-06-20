@@ -71,3 +71,4 @@ Route::resource('exam_allocations', ExamAllocationController::class);
 Route::resource('teacher_allocations', TeacherAllocationController::class);
 Route::resource('days', DayController::class);
 Route::resource('timetables', TimetableController::class);
+Route::get('get_timetable', [TimetableController::class, 'getTimetables'])->name('get_timetable');
