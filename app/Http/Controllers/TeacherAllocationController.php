@@ -81,7 +81,8 @@ class TeacherAllocationController extends Controller
         // check if class section exists
         $old_section_class_allocation = TeacherAllocation::where([
             'subject_id' => $request->subject,
-            'class_section_allocation_id' => $request->class
+            'class_section_allocation_id' => $request->class,
+            'user_id' => $request->user
         ])->first();
 
         if ($old_section_class_allocation) {

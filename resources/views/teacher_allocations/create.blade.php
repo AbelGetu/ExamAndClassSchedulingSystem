@@ -13,7 +13,7 @@
                 <select name="class" class="form-control" required>
                     <option value="">-- Select class ---</option>
                     @foreach ($class_section_allocations as $class_section_allocation)
-                        <option value="{{ $class_section_allocation->student_class->id }}">
+                        <option value="{{ $class_section_allocation->id }}">
                             {{ $class_section_allocation->student_class->department->name }} | 
                             {{ $class_section_allocation->student_class->academic_calendar->name }} | 
                             {{ $class_section_allocation->student_class->semester->name }} | 
