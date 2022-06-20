@@ -170,7 +170,7 @@ class TimetableController extends Controller
             return redirect()->back()->with('error', 'No Student Classes found for the selected criteria.');
         } else {
             $student_class_ids = $student_classes->pluck('id')->toArray();
-            $class_section_allocation_counts = ClassSectionAllocation::whereIn('id', $student_class_ids)->count();
+            $class_section_allocation_counts = ClassSectionAllocation::whereIn('student_class_id', $student_class_ids)->count();
             if($class_section_allocation_counts == 0) {
                 return redirect()->back()->with('error', 'No Class Section Allocations found for the selected criteria.');
             } else {
