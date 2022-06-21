@@ -63,22 +63,18 @@
             <h4 class="card-title">{{ $student_class->department->name }} | {{ $student_class->academic_calendar->name }} | {{ $student_class->semester->name }} | {{ $student_class->class_year->name }}</h4>
             @if ($student_class->class_section_allocations->count() > 0)
                 @foreach ($student_class->class_section_allocations as $class_section_allocation)
-                    <div class="card card-body">
+                    <div class="card card-body mb-3">
                         <h5>Section: {{ $class_section_allocation->section->name }} [Room: {{$class_section_allocation->section_allocation->room->name}}]</h5>
 
                         @foreach ($class_section_allocation->teacher_allocations as $teacher_allocation)
-                            <p class="lead">{{$teacher_allocation->user->name}} | {{ $teacher_allocation->subject->name }}</p>
+                            <p class="lead">{{$teacher_allocation->user->name}} | {{ $teacher_allocation->subject->name }} [{{ $teacher_allocation->subject->code }}]</p>
                             <div class="d-flex gap-1">
                                 @foreach ($teacher_allocation->timetables()->orderBy('day_order')->orderBy('period_order')->get() as $timetable)
                                 <div class="card card-body">
                                     {{ $timetable->day->name }} [{{ $timetable->period->name }}]
                                 </div>
                                 @endforeach
-                            </div>
-                            
-                                    
-                                
-                           
+                            </div>   
                         @endforeach
                     </div>
                     

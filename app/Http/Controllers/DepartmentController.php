@@ -134,6 +134,9 @@ class DepartmentController extends Controller
     public function destroy($id)
     {
         $department = Department::find($id);
+        if($department->student_classes->count() > 0) {
+            return redirect('/departments')->with('error', 'Department has student classes and cannot be deleted');
+        }
         $department->delete();
 
         return redirect('/departments')->with('success', 'Department deleted successfully');

@@ -111,6 +111,9 @@ class BuildingController extends Controller
     public function destroy($id)
     {
         $building = Building::find($id);
+        if($building->rooms->count() > 0) {
+            return redirect()->route('buildings.index')->with('error', 'Building has rooms. Cannot delete.');
+        }
         $building->delete();
 
         return redirect()->route('buildings.index')->with('success', 'Building deleted successfully');

@@ -111,6 +111,9 @@ class SemesterController extends Controller
     public function destroy($id)
     {
         $semester = Semester::find($id);
+        if($semester->student_classes->count() > 0) {
+            return redirect()->route('semesters.index')->with('error', 'Cannot delete cannot be deleted because it has student classes');
+        }
         $semester->delete();
 
         return redirect()->route('semesters.index')->with('success', 'Semester deleted successfully');

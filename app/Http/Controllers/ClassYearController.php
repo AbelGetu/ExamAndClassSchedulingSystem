@@ -111,6 +111,9 @@ class ClassYearController extends Controller
     public function destroy($id)
     {
         $class_year = ClassYear::findOrFail($id);
+        if($class_year->student_classes->count() > 0) {
+            return redirect()->route('class_years.index')->with('error', 'Class Year cannot be deleted because it has student classes.');
+        }
         $class_year->delete();
     }
 }

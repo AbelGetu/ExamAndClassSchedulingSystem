@@ -18,4 +18,14 @@ class Room extends Model
     {
         return $this->belongsTo(Building::class, 'building_id');
     }
+
+    /**
+     * Get all of the section_allocations for the Room
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function section_allocations()
+    {
+        return $this->hasMany(SectionAllocation::class, 'room_id');
+    }
 }

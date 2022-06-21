@@ -55,55 +55,7 @@ class TimetableController extends Controller
 
         if($student_class == null) {
             return redirect()->back()->with('error', 'No timetable found for the selected criteria.');
-        } else { 
-            // foreach($student_class->class_section_allocations as $class_section_allocation)
-            // {
-            //     $timetable = collect();
-            //     $timetable->put('academic_calendar_name', $student_class->academic_calendar->name);
-            //     $timetable->put('semester_name', $student_class->semester->name);
-            //     $timetable->put('class_year_name', $student_class->class_year->name);
-            //     $timetable->put('department_name', $student_class->department->name);
-            //     $timetable->put('section_name', $class_section_allocation->section->name);
-            //     $timetable->put('room_name', $class_section_allocation->section_allocation->room->name);
-
-            //     $teacher_allocation_ids = $class_section_allocation->teacher_allocations->pluck('id')->toArray();
-
-            //     foreach($teacher_allocation_ids as $teacher_allocation_id)
-            //     {
-
-            //     }
-                
-            //     // I don't know how to do this
-            //     // $schedules = collect();
-
-            //     // $days = Day::orderBy('order')->get();
-            //     // foreach($days as $day)
-            //     // {
-            //     //     $schedule = collect();
-            //     //     $periods = Period::orderBy('order')->get();
-
-            //     //     foreach($periods as $period)
-            //     //     {
-            //     //         // Check for timetable
-            //     //         $timetable_info = Timetable::whereIn('teacher_allocation_id', $teacher_allocation_ids)->where([
-            //     //             'day_id' => $day->id,
-            //     //             'period_id' => $period->id
-            //     //         ])->with([
-            //     //             'teacher_allocation.user', 'subject'
-            //     //         ])->first();
-
-            //     //         if($timetable_info != null) {
-            //     //             $schedule->put($day->name.$period->name, $timetable_info->subject->name . " | " . $timetable_info->subject->code);
-            //     //             $schedules->push($schedule);
-            //     //         } else {
-            //     //             $schedules->push($schedule);
-            //     //         }                        
-            //     //     }
-
-            //     //     dd($schedules);
-            //     }
-            // }
-
+        } else {
             $academic_calendars = AcademicCalendar::orderBy('created_at', 'desc')->get();
             $semesters = Semester::orderBy('name')->get();
             $class_years = ClassYear::orderBy('name')->get();
@@ -119,7 +71,6 @@ class TimetableController extends Controller
                 'periods' => Period::orderBy('order')->get()
             ]);
         }
-
 
     }
 
@@ -188,7 +139,9 @@ class TimetableController extends Controller
                         {
                             // Find teacher allocations
                             $teacher_allocations = TeacherAllocation::where('class_section_allocation_id', $class_section_allocation->id)->orderBy('period_per_week', 'desc')->get();
-                            
+                            if($teacher_allocations->count() == 0) {
+                                return redirect()->back()->with('error', 'No Teacher Allocations found for the selected criteria.');
+                            }
                             foreach($teacher_allocations as $teacher_allocation)
                             {
                                 $periods_per_week = $teacher_allocation->period_per_week;
@@ -240,18 +193,7 @@ class TimetableController extends Controller
                                                         }
                                                     }  else {
                                                         continue;
-                                                    }                                                  
-                                                       
-                                                    // dd("is teacher free", $is_teacher_free);
-                                                    // dd("is period free", $is_period_free);
-                                                    // dd("is room free", $is_room_free);
-                                                        // if($is_teacher_free == true && $is_period_free == true && $is_room_free == true) {
-                                                           
-                                                            
-
-                                                        //     dd('timetable created');
-                                                            
-                                                        // }
+                                                    }     
                                                 }
                                             }
                                             
@@ -342,6 +284,13 @@ class TimetableController extends Controller
         } else {
             return false;
         }
+    }
+
+    public function myTimetable()
+    {
+        $teacher_allocations = TeacherAllocation::where('user_id', auth()->user()->id)->get();
+
+        return view('timetables.mytimetable')->with('teacher_allocations', $teacher_allocations);
     }
 
     /**

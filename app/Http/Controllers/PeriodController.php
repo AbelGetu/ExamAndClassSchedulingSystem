@@ -115,6 +115,9 @@ class PeriodController extends Controller
     public function destroy($id)
     {
         $period = Period::find($id);
+        if($period->timetables()->count() > 0) {
+            return redirect()->route('periods.index')->with('error', 'Period cannot be deleted because it is associated with a timetable.');
+        }
         $period->delete();
 
         return redirect()->route('periods.index')->with('success', 'Period deleted successfully.');

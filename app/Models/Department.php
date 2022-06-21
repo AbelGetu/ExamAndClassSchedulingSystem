@@ -18,4 +18,14 @@ class Department extends Model
     {
         return $this->belongsTo(College::class, 'college_id');
     }
+
+    /**
+     * Get all of the student_classes for the Department
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function student_classes()
+    {
+        return $this->hasMany(StudentClass::class, 'department_id');
+    }
 }

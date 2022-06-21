@@ -126,6 +126,9 @@ class ClassSectionAllocationController extends Controller
     public function destroy($id)
     {
         $class_section_allocation = ClassSectionAllocation::find($id);
+        if($class_section_allocation->section_allocation) {
+            $class_section_allocation->section_allocation->delete();
+        }
         $class_section_allocation->delete();
 
         return redirect()->route('class_section_allocations.index')->with('success', 'Class section deleted successfully.');

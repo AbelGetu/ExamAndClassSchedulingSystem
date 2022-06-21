@@ -119,6 +119,9 @@ class RoomController extends Controller
     public function destroy($id)
     {
         $room = Room::find($id);
+        if($room->section_allocations->count() > 0) {
+            return redirect()->route('rooms.index')->with('error', 'Room cannot be deleted because it is allocated to a section');
+        }
         $room->delete();
 
         return redirect()->route('rooms.index')->with('success', 'Room deleted successfully');

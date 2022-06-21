@@ -139,7 +139,9 @@ class InstituteController extends Controller
     public function destroy($id)
     {
         $institute = Institute::find($id);
-
+        if($institute->colleges->count() > 0) {
+            return redirect()->route('institutes.index')->with('error', 'Institute has colleges. Please delete colleges first.');
+        }
         $institute->delete();
 
         return redirect()->route('institutes.index')->with('success', 'Institute deleted successfully.');

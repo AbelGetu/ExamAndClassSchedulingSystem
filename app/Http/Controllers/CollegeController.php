@@ -132,6 +132,9 @@ class CollegeController extends Controller
     public function destroy($id)
     {
         $college = College::find($id);
+        if($college->departments->count() > 0) {
+            return redirect('/colleges')->with('error', 'College has departments. Cannot delete.');
+        }
         $college->delete();
 
         return redirect('/colleges')->with('success', 'College deleted successfully');

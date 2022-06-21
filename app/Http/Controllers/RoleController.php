@@ -109,6 +109,9 @@ class RoleController extends Controller
     public function destroy($id)
     {
         $role = Role::find($id);
+        if($role->user_roles->count() > 0) {
+            return redirect()->route('roles.index')->with('error', 'Role cannot be deleted because it is assigned to users');
+        }
         $role->delete();
 
         return redirect()->route('roles.index')->with('success', 'Role deleted successfully');

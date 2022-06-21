@@ -151,6 +151,9 @@ class StudentClassController extends Controller
     public function destroy($id)
     {
         $student_class = StudentClass::findOrFail($id);
+        if($student_class->class_section_allocations->count() > 0) {
+            return redirect()->route('student_classes.index')->with('error', 'Student Class cannot be deleted because it has class section allocations.');
+        }
         $student_class->delete();
 
         return redirect()->route('student_classes.index')->with('success', 'Student Class deleted successfully.');

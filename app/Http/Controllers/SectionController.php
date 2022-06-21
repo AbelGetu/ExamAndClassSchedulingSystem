@@ -111,6 +111,9 @@ class SectionController extends Controller
     public function destroy($id)
     {
         $section = Section::find($id);
+        if($section->class_section_allocations->count() > 0) {
+            return redirect()->route('sections.index')->with('error', 'Section has class section allocations. Cannot delete.');
+        }
         $section->delete();
 
         return redirect()->route('sections.index')->with('success', 'Section deleted successfully.');

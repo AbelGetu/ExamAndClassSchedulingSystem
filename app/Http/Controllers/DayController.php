@@ -105,6 +105,9 @@ class DayController extends Controller
     public function destroy($id)
     {
         $day = Day::find($id);
+        if($day->timetables()->count() > 0) {
+            return redirect('days')->with('error', 'Day cannot be deleted because it has timetables');
+        }
         $day->delete();
 
         return redirect('days')->with('success', 'Day deleted successfully');

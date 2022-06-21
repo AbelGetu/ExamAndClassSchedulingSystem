@@ -48,4 +48,14 @@ class TeacherAllocation extends Model
    {
        return $this->hasMany(Timetable::class, 'teacher_allocation_id');
    }
+
+   /**
+    * Get the exam_timetable associated with the TeacherAllocation
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+   public function exam_timetable()
+   {
+       return $this->hasOne(ExamTimetable::class, 'teacher_allocation_id');
+   }
 }

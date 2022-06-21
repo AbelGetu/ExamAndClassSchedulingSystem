@@ -142,6 +142,9 @@ class TeacherAllocationController extends Controller
     public function destroy($id)
     {
         $teacher_allocation = TeacherAllocation::find($id);
+        if($teacher_allocation->timetables->count() > 0) {
+            return redirect()->back()->with('error', 'Teacher has timetables assigned to him. Please delete timetables first.');
+        }
         $teacher_allocation->delete();
 
         return redirect()->route('teacher_allocations.index')->with('success', 'Teacher allocation deleted successfully');

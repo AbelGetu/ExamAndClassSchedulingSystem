@@ -128,6 +128,7 @@ class ExamAllocationController extends Controller
     public function destroy($id)
     {
         $exam_allocation = ExamAllocation::find($id);
+        
         $exam_allocation->delete();
 
         return redirect()->route('exam_allocations.index')->with('success', 'Exam allocation deleted successfully');

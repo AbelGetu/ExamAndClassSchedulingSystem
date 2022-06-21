@@ -117,6 +117,9 @@ class AcademicCalendarController extends Controller
     public function destroy($id)
     {
         $academic_calendar = AcademicCalendar::find($id);
+        if($academic_calendar->student_classes->count() > 0) {
+            return redirect()->route('academic_calendars.index')->with('error', 'Academic Calendar cannot be deleted because it has student classes');
+        }
         $academic_calendar->delete();
 
         return redirect()->route('academic_calendars.index')->with('success', 'Academic Calendar deleted successfully');

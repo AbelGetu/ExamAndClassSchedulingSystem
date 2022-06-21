@@ -115,6 +115,9 @@ class SubjectController extends Controller
     public function destroy($id)
     {
         $subject = Subject::find($id);
+        if($subject->teacher_allocations->count() > 0) {
+            return redirect()->route('subjects.index')->with('error', 'Subject has already been allocated to a teacher');
+        }
         $subject->delete();
 
         return redirect()->route('subjects.index')->with('success', 'Subject deleted successfully');

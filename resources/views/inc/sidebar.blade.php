@@ -31,24 +31,27 @@
  
 
   <!-- Nav Item - Utilities Collapse Menu -->
-  <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-          aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>Allocations</span>
-      </a>
-      <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-          data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Allocation Information</h6>
-              <a class="collapse-item" href="{{ route('student_classes.index') }}">Classes</a>
-              <a class="collapse-item" href="{{ route('class_section_allocations.index') }}">Class Section Allocation</a>
-              <a class="collapse-item" href="{{ route('exam_allocations.index') }}">Exam Allocation</a>
-              <a class="collapse-item" href="{{ route('teacher_allocations.index') }}">Teacher Allocations</a>
-          </div>
-      </div>
-  </li>
+  @if (auth()->user()->user_role->role->name === "Program Manager")
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+            aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Allocations</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Allocation Information</h6>
+                <a class="collapse-item" href="{{ route('student_classes.index') }}">Classes</a>
+                <a class="collapse-item" href="{{ route('class_section_allocations.index') }}">Class Section Allocation</a>
+                {{-- <a class="collapse-item" href="{{ route('exam_allocations.index') }}">Exam Allocation</a> --}}
+                <a class="collapse-item" href="{{ route('teacher_allocations.index') }}">Teacher Allocations</a>
+            </div>
+        </div>
+    </li>
+  @endif  
 
+  @if (auth()->user()->user_role->role->name === "Admin")
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
         aria-expanded="true" aria-controls="collapseTwo">
@@ -63,7 +66,10 @@
         </div>
     </div>
 </li>
+  @endif
+  
 
+@if (auth()->user()->user_role->role->name === "Program Manager")
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
         aria-expanded="true" aria-controls="collapseThree">
@@ -88,7 +94,10 @@
         </div>
     </div>
 </li>
+@endif
 
+
+@if (auth()->user()->user_role->role->name === "Admin")
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
         aria-expanded="true" aria-controls="collapseFour">
@@ -103,28 +112,41 @@
         </div>
     </div>
 </li>
+<hr class="sidebar-divider">
+@endif
+
   <!-- Divider -->
-  <hr class="sidebar-divider">
 
  
 
 
   <!-- Nav Item - Charts -->
+  @if (auth()->user()->user_role->role->name === "Program Manager")
   <li class="nav-item">
-      <a class="nav-link" href="{{ route('timetables.index') }}">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Timetables</span></a>
-  </li>
+        <a class="nav-link" href="{{ route('timetables.index') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Timetables</span></a>
+    </li>
 
-  <!-- Nav Item - Tables -->
-  {{-- <li class="nav-item">
-      <a class="nav-link" href="#">
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('exam_timetables.index') }}">
         <i class="fas fa-fw fa-chart-area"></i>
-          <span>Tables</span></a>
-  </li> --}}
+            <span>Exam Timetable</span></a>
+    </li>
+    <hr class="sidebar-divider d-none d-md-block">
+  @endif
+
+  @if (auth()->user()->user_role->role->name === "Teacher")
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('my_timetable') }}">
+        <i class="fas fa-fw fa-chart-area"></i>
+            <span>My Timetable</span></a>
+    </li>
+  @endif    
+  
 
   <!-- Divider -->
-  <hr class="sidebar-divider d-none d-md-block">
 
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">
